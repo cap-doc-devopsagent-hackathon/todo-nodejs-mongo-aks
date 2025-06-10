@@ -33,20 +33,4 @@ spec:
                   name: todo-api-config
                   key: APPLICATIONINSIGHTS_CONNECTION_STRING
                   optional: false
-            - name: AZURE_TENANT_ID
-              value: {{.Env.AZURE_TENTANT_ID}}
-            - name: AZURE_AUTHORITY_HOST
-              value: {{.Env.AZURE_AUTHORITY_HOST}}
-            - name: AZURE_FEDERATED_TOKEN_FILE
-              value: {{.Env.AZURE_FEDERATED_TOKEN_FILE}}
-          volumeMounts:
-            - name: federated-token
-              mountPath: /var/run/secrets/azure/tokens
-              readOnly: true
-      volumes:
-        - name: federated-token
-          projected:
-            sources:
-              - serviceAccountToken:
-                  path: azure-identity-token
-                  audience: api://AzureADTokenExchange
+
