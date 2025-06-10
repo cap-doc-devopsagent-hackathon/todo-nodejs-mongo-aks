@@ -1,0 +1,25 @@
+config:
+  logLevel: info
+  clients:
+    - url: http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push  # Loki endpoint
+  positions:
+    filename: /run/promtail/positions.yaml
+  snippets:
+    scrape_configs:
+      - job_name: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - action: keep
+            regex: .+
+            source_labels:
+              - __meta_kubernetes_pod_annotation_kubernetes_io/config
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
+          - action: replace
+            target_label: cluster
+            replacement: aks-devops-agent

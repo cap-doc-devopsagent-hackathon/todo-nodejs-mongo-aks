@@ -1,10 +1,10 @@
 {
     "database": {
-        "connectionString": "",
-        "databaseName": "Todo"
+        "connectionString": "AZURE_COSMOS_CONNECTION_STRING",
+        "databaseName": "AZURE_COSMOS_DATABASE_NAME"
     },
     "observability": {
-        "connectionString": "",
-        "roleName": "API"
+        "connectionString": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+        "roleName": "APPLICATIONINSIGHTS_ROLE_NAME"
     }
 }

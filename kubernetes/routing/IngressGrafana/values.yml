@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-front
+  namespace: monitoring
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: todo-api-front
+                port:
+                  number: 80
+            path: /monitoring/
+            pathType: Prefix

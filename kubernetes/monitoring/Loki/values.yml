@@ -1,0 +1,86 @@
+loki:
+  auth_enabled: false
+  deploymentMode: SingleBinary
+  podLabels:
+    azure.workload.identity/client-id: <LOKI-MIDEVOPSAGENT.CLIENTID>
+    azure.workload.identity/use: "true"
+  querier:
+    max_concurrent: 4
+  replicas: 1
+  retention_period: 24h
+  ruler:
+    alertmanager_url: http://prometheus-alertmanager:9093
+    enable_api: true
+    storage:
+      azure:
+        account_key: <AZURE_SA_ACCOUNT_KEY>
+        account_name: <AZURE_SA_ACCOUNT_NAME>
+        client_id: <AZURE_SP_CLIENT_ID>
+        client_secret: <AZURE_SP_SECRET>
+        endpointSuffix: blob.core.windows.net
+        tenant_id: <AZURE_TENANT_ID>
+        use_managed_identity: false
+        use_service_principal: true
+  schemaConfig:
+    configs:
+      - from: "2024-01-01"
+        index:
+          period: 24h
+          prefix: loki_index_
+        object_store: azure
+        schema: v13
+        store: tsdb
+  serviceAccount:
+    annotations:
+      azure.workload.identity/client-id: <AZURE_SA_CLIENT_ID>
+    labels:
+      azure.workload.identity/use: "true"
+    name: loki-sa
+  singleBinary:
+    persistence:
+      enabled: true
+    replicas: 1
+  storage:
+    azure:
+      account_key: <AZURE_SA_ACCOUNT_KEY>
+      account_name: <AZURE_SA_ACCOUNT_NAME>
+      client_id: <AZURE_SP_CLIENT_ID>
+      client_secret: <AZURE_SP_SECRET>
+      endpointSuffix: blob.core.windows.net
+      tenant_id: <AZURE_TENANT_ID>
+      use_managed_identity: false
+      use_service_principal: true
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-ruler
+gateway:
+  replicas: 3
+  enabled: true
+read:
+  replicas: 1
+test:
+  enabled: false
+write:
+  replicas: 2
+backend:
+  replicas: 3
+compactor:
+  retention_enabled: false
+lokiCanary:
+  enabled: false
+minio:
+  enabled: false
+extraVolumeMounts:
+  - mountPath: /tmp
+    name: temp-storage
+  - mountPath: /data/loki/wal
+    name: wal-storage
+  - mountPath: /data/loki/compactor
+    name: compactor-storage
+extraVolumes:
+  - emptyDir: {}
+    name: temp-storage
+  - emptyDir: {}
+    name: wal-storage
+  - emptyDir: {}
+    name: compactor-storage

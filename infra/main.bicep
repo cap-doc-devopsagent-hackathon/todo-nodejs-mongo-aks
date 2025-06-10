@@ -9,16 +9,6 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-// Optional parameters to override the default azd resource naming conventions. Update the main.parameters.json file to provide values. e.g.,:
-// "resourceGroupName": {
-//      "value": "myGroupName"
-// }
-@description('The resource name of the AKS cluster')
-param clusterName string = ''
-
-@description('The resource name of the Container Registry (ACR)')
-param containerRegistryName string = ''
-
 param applicationInsightsDashboardName string = ''
 param applicationInsightsName string = ''
 param cosmosAccountName string = ''
@@ -47,25 +37,6 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
   location: location
   tags: tags
-}
-
-// The AKS cluster to host applications
-module aks 'br/public:avm/ptn/azd/aks:0.2.0' = {
-  scope: rg
-  name: 'aks'
-  params: {
-    name: !empty(clusterName) ? clusterName : '${abbrs.containerServiceManagedClusters}${resourceToken}'
-    containerRegistryName: !empty(containerRegistryName) ? containerRegistryName : '${abbrs.containerRegistryRegistries}${resourceToken}'
-    monitoringWorkspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceResourceId
-    keyVaultName: keyVault.outputs.name
-    principalId: principalId
-    location: location
-    skuTier: 'Free'
-    acrSku: 'Basic'
-    systemPoolSize: systemPoolType
-    disableLocalAccounts: false
-    aadProfile: null
-  }
 }
 
 // The application database
