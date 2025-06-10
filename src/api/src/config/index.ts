@@ -1,9 +1,9 @@
 import { AppConfig, DatabaseConfig, ObservabilityConfig } from "./appConfig";
 import dotenv from "dotenv";
-import {DefaultAzureCredential} from "@azure/identity";
-import { logger } from "../config/observability";
+import {EnvironmentCredential} from "@azure/identity";
+import { logger } from "./observability";
 import { IConfig } from "config";
-import {BlobServiceClient} from "@azure/storage-blob";
+import {SecretClient} from "@azure/keyvault-secrets";
 
 export const getConfig: () => Promise<AppConfig> = async () => {
     // Load any ENV vars from local .env file
@@ -50,12 +50,22 @@ const populateEnvironmentFromKeyVault = async () => {
         return;
     }
 
-
     try {
-        const credential = new DefaultAzureCredential();
-        // const blobClient = new BlobServiceClient(`https://${process.env.AZURE_STORAGE_ACCOUNT_NAME_LOKI}.blob.core.windows.net`,credential);
-        logger.info("Breach deployment by using hardcoding DB-Connectionstring");
-        process.env["AZURE_COSMOS_CONNECTION_STRING"] = <AZURE_COSMOS_CONNECTION_STRING>;
+        process.env["AZURE_USERNAME"] = process.env.AZURE_SP_CLIENT_ID;
+        process.env["AZURE_PASSWORD"] = process.env.AZURE_SP_CLIENT_SECRET;
+        const credential = new EnvironmentCredential();
+        const secretClient = new SecretClient(keyVaultEndpoint, credential);
+
+        for await (const secretProperties of secretClient.listPropertiesOfSecrets()) {
+            const secret = await secretClient.getSecret(secretProperties.name);
+
+            // KeyVault does not support underscores in key names and replaces '-' with '_'
+            // Expect KeyVault secret names to be in conventional capitalized snake casing after conversion
+            const keyName = secret.name.replace(/-/g, "_");
+            process.env[keyName] = secret.value;
+        }
+        // logger.info("Breach deployment by using hardcoding DB-Connectionstring");
+        // process.env["AZURE_COSMOS_CONNECTION_STRING"] = <AZURE_COSMOS_CONNECTION_STRING>;
     }
     catch (err: any) {
         logger.error(`Error authenticating with Azure KeyVault.  Ensure your managed identity or service principal has GET/LIST permissions. Error: ${err}`);
