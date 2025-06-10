@@ -87,6 +87,7 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
+          AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
 
       - name: Deploy Application
         run: azd deploy --no-prompt
