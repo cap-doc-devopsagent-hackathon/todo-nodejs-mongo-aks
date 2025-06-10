@@ -75,7 +75,7 @@ jobs:
             --client-id "$($info.clientId)" `
             --client-secret "$($info.clientSecret)" `
             --tenant-id "$($info.tenantId)"; 
-          
+          az account list --output table;
           az account set --subscription "$($info.subscriptionId)"
         shell: pwsh
         env:
