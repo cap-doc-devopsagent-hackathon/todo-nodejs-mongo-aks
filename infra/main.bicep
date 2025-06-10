@@ -98,7 +98,3 @@ output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.uri
 output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
-output AZURE_AKS_CLUSTER_NAME string = aks.outputs.managedClusterName
-output AZURE_AKS_IDENTITY_CLIENT_ID string? = aks.outputs.?managedClusterClientId
-output AZURE_CONTAINER_REGISTRY_ENDPOINT string = aks.outputs.containerRegistryLoginServer
-output AZURE_CONTAINER_REGISTRY_NAME string = aks.outputs.containerRegistryName
