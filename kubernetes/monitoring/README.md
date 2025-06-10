@@ -19,7 +19,9 @@ StorageAccount devopsagentloki
 //For usage of ManagedIDs
 az aks update --name aks-devops-agent --enable-oidc-issuer --enable-workload-identity  
 az aks show --name aks-devops-agent --resource-group rg-devops-agent --query "oidcIssuerProfile.issuerUrl" -o tsv
-az identity federated-credential create --name app-fedcreddevopsagent --identity-name 373e0a21-1d7a-4ee4-9bc6-8dee655b4f44 --resource-group rg-devops-agent --issuer https://westeurope.oic.prod-aks.azure.com/76a2ae5a-9f00-4f6b-95ed-5d33d77c4d61/672e32d1-16f0-4569-9625-dcf805a3113b/ --subject system:serviceaccount:todo-nodejs-mongo-aks:todo-api-sa --audience api://AzureADTokenExchange
+az identity federated-credential create --name app-fedcreddevopsagent --identity-name <AZURE_CLIENT_ID> --resource-group rg-devops-agent --issuer 
+https://westeurope.oic.
+prod-aks.azure.com/<AZURE_AKS_CLIENT_ID/ --subject system:serviceaccount:todo-nodejs-mongo-aks:todo-api-sa --audience api://AzureADTokenExchange
 az identity show -g rg-devops-agent --name app-fedcreddevopsagent
 
 //Generate AccessTokens from AKS
