@@ -43,7 +43,7 @@ const populateEnvironmentFromKeyVault = async () => {
     // If Azure key vault endpoint is defined
     // 1. Login with Default credential (managed identity or service principal)
     // 2. Overlay key vault secrets on top of ENV vars
-    const keyVaultEndpoint = process.env.AZURE_KEY_VAULT_ENDPOINT || "";
+    const keyVaultEndpoint = process.env.AZURE_KEY_VAULT_ENDPOINT;
 
     if (!keyVaultEndpoint) {
         logger.warn("AZURE_KEY_VAULT_ENDPOINT has not been set. Configuration will be loaded from current environment.");
@@ -53,7 +53,7 @@ const populateEnvironmentFromKeyVault = async () => {
     try {
         process.env["AZURE_USERNAME"] = process.env.AZURE_SP_CLIENT_ID;
         process.env["AZURE_PASSWORD"] = process.env.AZURE_SP_CLIENT_SECRET;
-        logger.info(keyVaultEndpoint);
+        logger.info(process.env.AZURE_KEY_VAULT_ENDPOINT);
         const credential = new EnvironmentCredential();
         const secretClient = new SecretClient(keyVaultEndpoint, credential);
 

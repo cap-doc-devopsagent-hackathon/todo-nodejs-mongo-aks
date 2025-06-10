@@ -33,4 +33,3 @@ spec:
                   name: todo-api-config
                   key: APPLICATIONINSIGHTS_CONNECTION_STRING
                   optional: false
-
