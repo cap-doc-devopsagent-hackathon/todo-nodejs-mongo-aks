@@ -19,8 +19,24 @@ spec:
           ports:
             - containerPort: 3100
           env:
+            - name: AZURE_TENANT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-api-config
+                  key: AUZURE_TENANT_ID
+                  optional: false
             - name: AZURE_CLIENT_ID
-              value: {{.Env.AZURE_AKS_IDENTITY_CLIENT_ID}}
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-api-config
+                  key: AZURE_CLIENT_ID
+                  optional: false
+            - name: AZURE_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-api-config
+                  key: AZURE_CLIENT_SECRET
+                  optional: false
             - name: AZURE_KEY_VAULT_ENDPOINT
               valueFrom:
                 configMapKeyRef:
