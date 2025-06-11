@@ -52,6 +52,10 @@ const populateEnvironmentFromKeyVault = async () => {
 
     try {
         logger.info(process.env.AZURE_KEY_VAULT_ENDPOINT);
+        logger.info(process.env.AZURE_CLIENT_ID);
+        logger.info(process.env.AZURE_SP_CLIENT_ID);
+        logger.info(process.env.AZURE_SP_CLIENT_SECRET);
+        logger.info(process.env.AZURE_SP_DISPLAY_NAME);
         logger.info(process.env.AZURE_USERNAME);
         logger.info(process.env.AZURE_PASSWORD);
         const credential = new EnvironmentCredential();
