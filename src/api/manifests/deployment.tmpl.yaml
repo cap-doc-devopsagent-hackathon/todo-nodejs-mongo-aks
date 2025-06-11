@@ -31,3 +31,18 @@ spec:
                   name: todo-api-config
                   key: APPLICATIONINSIGHTS_CONNECTION_STRING
                   optional: false
+            - name: AZURE_TENANT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-api-config
+                  key: AZURE_TENANT_ID
+            - name: AZURE_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-api-config
+                  key: AZURE_CLIENT_ID
+            - name: AZURE_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-api-config
+                  key: AZURE_CLIENT_SECRET
