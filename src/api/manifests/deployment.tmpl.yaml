@@ -33,16 +33,16 @@ spec:
                   optional: false
             - name: AZURE_TENANT_ID
               valueFrom:
-                configMapKeyRef:
-                  name: todo-api-config
+                secretKeyRef:
+                  name: todo-api-secret
                   key: AZURE_TENANT_ID
             - name: AZURE_CLIENT_ID
               valueFrom:
-                configMapKeyRef:
-                  name: todo-api-config
+                secretKeyRef:
+                  name: todo-api-secret
                   key: AZURE_CLIENT_ID
             - name: AZURE_CLIENT_SECRET
               valueFrom:
-                configMapKeyRef:
-                  name: todo-api-config
+                secretKeyRef:
+                  name: todo-api-secret
                   key: AZURE_CLIENT_SECRET
