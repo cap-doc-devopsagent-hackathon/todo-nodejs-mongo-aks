@@ -93,7 +93,6 @@ jobs:
           AZURE_KEY_VAULT_ENDPOINT: ${{ vars.AZURE_KEY_VAULT_ENDPOINT }}
           AZURE_KEY_VAULT_NAME: ${{ vars.AZURE_KEY_VAULT_NAME }}
 
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_SP_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
-          AZURE_USERNAME: ${{ secrets.AZURE_SP_DISPLAY_NAME }}
-          AZURE_PASSWORD: ${{ secrets.AZURE_SP_CLIENT_SECRET }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SP_CLIENT_SECRET }}
