@@ -74,11 +74,11 @@ jobs:
       - name: Provision Infrastructure
         run: azd provision --no-prompt
         env:
+          AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
           AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
           AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
 
       - name: Deploy Application
@@ -90,8 +90,3 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           AZURE_CONTAINER_REGISTRY_ENDPOINT: ${{ vars.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
-          AZURE_KEY_VAULT_ENDPOINT: ${{ vars.AZURE_KEY_VAULT_ENDPOINT }}
-          AZURE_KEY_VAULT_NAME: ${{ vars.AZURE_KEY_VAULT_NAME }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_SP_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SP_CLIENT_SECRET }}
