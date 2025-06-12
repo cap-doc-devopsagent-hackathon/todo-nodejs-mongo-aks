@@ -67,17 +67,12 @@ jobs:
             --client-secret "$($info.clientSecret)" `
             --tenant-id "$($info.tenantId)";
           azd config set defaults.subscription "$($info.subscriptionId)";
-          azd config set defaults.group "rg-devops-agent";
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Provision Infrastructure
-        run: |
-          azd provision --no-prompt;
-          azd env --no-prompt set-secret AZURE_CLIENT_SECRET "${{ secrets.AZURE_SP_SECRET }}";
-          azd env --no-prompt set-secret AZURE_CLIENT_ID "${{ secrets.AZURE_SP_CLIENT_ID }}";
-          azd env get-values;
+        run: azd provision --no-prompt
         env:
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
@@ -86,9 +81,7 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
       - name: Deploy Application
-        run: |
-          azd deploy --no-prompt;
-          azd env get-values;
+        run: azd deploy --no-prompt
         env:
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
           AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
