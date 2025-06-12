@@ -12,6 +12,9 @@ pipeline:
   variables:
     - AZURE_PRINCIPAL_TYPE
     - AZURE_AKS_CLUSTER_NAME
+  secrets:
+    - AZURE_CLIENT_ID
+    - AZURE_CLIENT_SECRET
 services:
   web:
     project: ./src/web
