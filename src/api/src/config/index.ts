@@ -1,6 +1,6 @@
 import { AppConfig, DatabaseConfig, ObservabilityConfig } from "./appConfig";
 import dotenv from "dotenv";
-import { DefaultAzureCredential } from "@azure/identity";
+import { EnvironmentCredential } from "@azure/identity";
 import { logger } from "./observability";
 import { IConfig } from "config";
 import {SecretClient} from "@azure/keyvault-secrets";
@@ -60,7 +60,7 @@ const populateEnvironmentFromKeyVault = async () => {
         logger.info(process.env.AZURE_SP_DISPLAY_NAME);
         logger.info(process.env.AZURE_USERNAME);
         logger.info(process.env.AZURE_PASSWORD);
-        const credential = new DefaultAzureCredential();
+        const credential = new EnvironmentCredential();
         const secretClient = new SecretClient(keyVaultEndpoint, credential);
 
         for await (const secretProperties of secretClient.listPropertiesOfSecrets()) {
