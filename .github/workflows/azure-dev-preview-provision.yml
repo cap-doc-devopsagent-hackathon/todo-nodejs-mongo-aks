@@ -74,8 +74,8 @@ jobs:
       - name: Provision Infrastructure
         run: |
           azd provision --no-prompt;
-          azd env set-secret AZURE_CLIENT_SECRET "${{ secrets.AZURE_SP_SECRET }}";
-          azd env set-secret AZURE_CLIENT_ID "${{ secrets.AZURE_SP_CLIENT_ID }}";
+          azd env --no-prompt --resource-group rg-devops-agent set-secret AZURE_CLIENT_SECRET "${{ secrets.AZURE_SP_SECRET }}";
+          azd env --no-prompt --resource-group rg-devops-agent set-secret AZURE_CLIENT_ID "${{ secrets.AZURE_SP_CLIENT_ID }}";
           azd env get-values;
         env:
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
