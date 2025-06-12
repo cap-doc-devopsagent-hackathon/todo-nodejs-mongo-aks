@@ -73,8 +73,8 @@ jobs:
 
       - name: Provision Infrastructure
         run: |
-          azd env set-secret AZURE_CLIENT_SECRET "${{ secrets.AZURE_SP_SECRET }}";
-          azd env set-secret AZURE_CLIENT_ID "${{ secrets.AZURE_SP_CLIENT_ID }}";
+          azd env -e devops-agent --no-prompt set-secret AZURE_CLIENT_SECRET ${{ secrets.AZURE_SP_SECRET }};
+          azd env -e devops-agent --no-prompt set-secret AZURE_CLIENT_ID ${{ secrets.AZURE_SP_CLIENT_ID }};
           azd provision --no-prompt;
           azd env get-values;
         env:
@@ -87,8 +87,8 @@ jobs:
 
       - name: Deploy Application
         run: |
-          azd env set-secret AZURE_CLIENT_SECRET "${{ secrets.AZURE_SP_SECRET }}";
-          azd env set-secret AZURE_CLIENT_ID "${{ secrets.AZURE_SP_CLIENT_ID }}";
+          azd env -e devops-agent --no-prompt set-secret AZURE_CLIENT_SECRET ${{ secrets.AZURE_SP_SECRET }};
+          azd env -e devops-agent --no-prompt set-secret AZURE_CLIENT_ID ${{ secrets.AZURE_SP_CLIENT_ID }};
           azd deploy --no-prompt;
           azd env get-values;
         env:
