@@ -73,7 +73,7 @@ jobs:
 
       - name: Provision Infrastructure
         run: |
-          azd env get-values;
+          azd env get-values --output json;
           azd provision --no-prompt;
         env:
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
@@ -85,7 +85,7 @@ jobs:
 
       - name: Deploy Application
         run: |
-          azd env get-values;
+          azd env get-values --output json;
           azd deploy --no-prompt;
         env:
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
