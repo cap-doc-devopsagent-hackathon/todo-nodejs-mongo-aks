@@ -37,7 +37,7 @@ services:
           shell: sh
           run: "rm .env.local"
   api:
-    project: ./src/web
+    project: ./src/api
     language: js
     host: aks
     k8s:
