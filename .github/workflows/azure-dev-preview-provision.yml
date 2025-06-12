@@ -72,7 +72,9 @@ jobs:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Provision Infrastructure
-        run: azd provision --no-prompt
+        run: |
+          azd env get-values;
+          azd provision --no-prompt;
         env:
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
@@ -82,7 +84,9 @@ jobs:
           AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
 
       - name: Deploy Application
-        run: azd deploy --no-prompt
+        run: |
+          azd env get-values;
+          azd deploy --no-prompt;
         env:
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
           AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
