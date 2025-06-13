@@ -73,7 +73,8 @@ jobs:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Provision Infrastructure
-        run: azd provision --no-prompt
+        run: |
+          azd provision --no-prompt
         env:
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
           AZURE_AKS_CLUSTER_NAME: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
@@ -81,9 +82,11 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
-          AZURE_CLIENT_ID: ${{ env.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ env.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ env.AZURE_TENANT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_SP_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SP_SECRET }}
+      - name: Show env vars (DEBUG)
+        run: env | sort
       - name: Deploy Application
         run: azd deploy --no-prompt
         env:
@@ -93,7 +96,9 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           AZURE_CONTAINER_REGISTRY_ENDPOINT: ${{ vars.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
-          AZURE_CLIENT_ID: ${{ env.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ env.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ env.AZURE_TENANT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_SP_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SP_SECRET }}
+      - name: Show env vars (DEBUG)
+        run: env | sort
 
