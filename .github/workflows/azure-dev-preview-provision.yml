@@ -87,6 +87,7 @@ jobs:
         env:
           AZURE_CONTAINER_REGISTRY_ENDPOINT: ${{ vars.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
+          AZURE_COSMOS_CONNECTION_STRING: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
       - name: Show env vars (DEBUG)
         run: env | sort
 

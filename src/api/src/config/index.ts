@@ -40,10 +40,9 @@ export const getConfig: () => Promise<AppConfig> = async () => {
 };
 
 const populateEnvironmentFromKeyVault = async () => {
-    // If Azure key vault endpoint is defined
-    // 1. Login with Default credential (managed identity or service principal)
-    // 2. Overlay key vault secrets on top of ENV vars
     const keyVaultEndpoint = process.env.AZURE_KEY_VAULT_ENDPOINT;
+
+    // Population Environment Vars from KeyVault has been dactivated
 
     if (!keyVaultEndpoint) {
         logger.warn("AZURE_KEY_VAULT_ENDPOINT has not been set. Configuration will be loaded from current environment.");
@@ -51,29 +50,7 @@ const populateEnvironmentFromKeyVault = async () => {
     }
 
     try {
-        logger.info("kv: " + process.env.AZURE_KEY_VAULT_ENDPOINT);
-        logger.info("kv: " + process.env["AZURE_KEY_VAULT_ENDPOINT"]);
-        logger.info("tid: " + process.env.AZURE_TENANT_ID);
-        logger.info("tid: " + process.env["AZURE_TENANT_ID"]);
-        logger.info("loc: " + process.env.AZURE_LOCATION);
-        logger.info("loc: " + process.env["AZURE_LOCATION"]);
-        logger.info("cid: " + process.env.AZURE_CLIENT_ID);
-        logger.info("cid: " + process.env["AZURE_CLIENT_ID"]);
-        logger.info("cs: " + process.env.AZURE_CLIENT_SECRET);
-        logger.info("cs: " + process.env["AZURE_CLIENT_SECRET"]);
-        const credential = new EnvironmentCredential();
-        const secretClient = new SecretClient(keyVaultEndpoint, credential);
-
-        for await (const secretProperties of secretClient.listPropertiesOfSecrets()) {
-            const secret = await secretClient.getSecret(secretProperties.name);
-
-            // KeyVault does not support underscores in key names and replaces '-' with '_'
-            // Expect KeyVault secret names to be in conventional capitalized snake casing after conversion
-            const keyName = secret.name.replace(/-/g, "_");
-            process.env[keyName] = secret.value;
-        }
-        // logger.info("Breach deployment by using hardcoding DB-Connectionstring");
-        // process.env["AZURE_COSMOS_CONNECTION_STRING"] = <AZURE_COSMOS_CONNECTION_STRING>;
+        logger.info("Connecting to DB using GitHub Secrets");
     }
     catch (err: any) {
         logger.error(`Error authenticating with Azure KeyVault.  Ensure your managed identity or service principal has GET/LIST permissions. Error: ${err}`);
