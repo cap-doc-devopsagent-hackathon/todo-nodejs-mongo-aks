@@ -51,15 +51,16 @@ const populateEnvironmentFromKeyVault = async () => {
     }
 
     try {
-        logger.info(process.env.AZURE_KEY_VAULT_ENDPOINT);
-        logger.info(process.env.AZURE_CLIENT_ID);
-        logger.info(process.env.AZURE_TENANT_ID);
-        logger.info(process.env.AZURE_LOCATION);
-        logger.info(process.env.AZURE_SP_CLIENT_ID);
-        logger.info(process.env.AZURE_SP_CLIENT_SECRET);
-        logger.info(process.env.AZURE_SP_DISPLAY_NAME);
-        logger.info(process.env.AZURE_USERNAME);
-        logger.info(process.env.AZURE_PASSWORD);
+        logger.info("kv: " + process.env.AZURE_KEY_VAULT_ENDPOINT);
+        logger.info("kv: " + process.env["AZURE_KEY_VAULT_ENDPOINT"]);
+        logger.info("tid: " + process.env.AZURE_TENANT_ID);
+        logger.info("tid: " + process.env["AZURE_TENANT_ID"]);
+        logger.info("loc: " + process.env.AZURE_LOCATION);
+        logger.info("loc: " + process.env["AZURE_LOCATION"]);
+        logger.info("cid: " + process.env.AZURE_CLIENT_ID);
+        logger.info("cid: " + process.env["AZURE_CLIENT_ID"]);
+        logger.info("cs: " + process.env.AZURE_CLIENT_SECRET);
+        logger.info("cs: " + process.env["AZURE_CLIENT_SECRET"]);
         const credential = new EnvironmentCredential();
         const secretClient = new SecretClient(keyVaultEndpoint, credential);
 
