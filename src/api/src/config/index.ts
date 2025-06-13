@@ -1,9 +1,7 @@
 import { AppConfig, DatabaseConfig, ObservabilityConfig } from "./appConfig";
 import dotenv from "dotenv";
-import { EnvironmentCredential } from "@azure/identity";
 import { logger } from "./observability";
 import { IConfig } from "config";
-import {SecretClient} from "@azure/keyvault-secrets";
 
 export const getConfig: () => Promise<AppConfig> = async () => {
     // Load any ENV vars from local .env file
@@ -11,7 +9,13 @@ export const getConfig: () => Promise<AppConfig> = async () => {
         dotenv.config();
     }
 
-    await populateEnvironmentFromKeyVault();
+    // await populateEnvironmentFromKeyVault();
+
+    const databaseName = process.env.AZURE_COSMOS_DATABASE_NAME || "";
+    const connectionString = process.env.AZURE_COSMOS_DATABASE_NAME || "";
+    const observabilityDatabaseName= process.env.AZURE_COSMOS_DATABASE_NAME || "";
+    const observabilityConnectionString = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "";
+
 
     // Load configuration after Azure KeyVault population is complete
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -29,12 +33,12 @@ export const getConfig: () => Promise<AppConfig> = async () => {
 
     return {
         observability: {
-            connectionString: observabilityConfig.connectionString,
-            roleName: observabilityConfig.roleName,
+            connectionString: observabilityConnectionString,
+            roleName: observabilityDatabaseName,
         },
         database: {
-            connectionString: databaseConfig.connectionString,
-            databaseName: databaseConfig.databaseName,
+            connectionString: connectionString,
+            databaseName: databaseName,
         },
     };
 };
