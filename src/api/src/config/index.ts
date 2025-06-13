@@ -1,18 +1,27 @@
-import { AppConfig } from "./appConfig";
+import {AppConfig, DatabaseConfig, ObservabilityConfig} from "./appConfig";
+import {logger} from "./observability";
 
 export const getConfig: () => Promise<AppConfig> = async () => {
-    const databaseName = process.env.AZURE_COSMOS_DATABASE_NAME || "";
-    const connectionString = process.env.AZURE_COSMOS_DATABASE_NAME || "";
-    const observabilityDatabaseName= process.env.AZURE_COSMOS_DATABASE_NAME || "";
-    const observabilityConnectionString = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "";
-    return {
-        observability: {
-            connectionString: observabilityConnectionString,
-            roleName: observabilityDatabaseName,
-        },
-        database: {
-            connectionString: connectionString,
-            databaseName: databaseName,
-        },
-    };
+    try {
+
+        const  databaseConfig : DatabaseConfig = new class implements DatabaseConfig {
+            connectionString: string = process.env.AZURE_COSMOS_CONNECTION_STRING || "";
+            databaseName: string = process.env.AZURE_COSMOS_DATABASE_NAME || "";
+        };
+
+        const  observabilityConfig : ObservabilityConfig = new class implements ObservabilityConfig {
+            connectionString: string = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "";
+            roleName: string = process.env.APPLICATIONINSIGHTS_ROLE_NAME || "";
+        };
+
+        const appConfig : AppConfig = new class implements AppConfig {
+            database: DatabaseConfig = databaseConfig;
+            observability: ObservabilityConfig = observabilityConfig;
+        };
+
+        return appConfig;
+
+    } catch {
+        throw logger.error("Some config values haven't been set correctly.");
+    }
 };
