@@ -14,6 +14,7 @@ export const configureMongoose = async (config: DatabaseConfig) => {
 
     try {
         const db = mongoose.connection;
+        logger.info("Config: " + JSON.stringify(config));
         db.on("connecting", () => logger.info("Mongoose connecting..."));
         db.on("connected", () => logger.info("Mongoose connected successfully!"));
         db.on("disconnecting", () => logger.info("Mongoose disconnecting..."));
