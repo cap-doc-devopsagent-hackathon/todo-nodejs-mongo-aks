@@ -4,20 +4,27 @@ name: todo-nodejs-mongo-aks
 metadata:
   template: todo-nodejs-mongo-aks@0.0.1-beta
 workflows:
-  up: 
+  up:
     steps:
       - azd: provision
+        env:
+          - APPLICATIONINSIGHTS_CONNECTION_STRING_VAR: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
+          - AZURE_CLIENT_ID_VAR: $(AZURE_CLIENT_ID)
+          - AZURE_CLIENT_SECRET_VAR: $(AZURE_CLIENT_SECRET)
+          - APPLICATIONINSIGHTS_CONNECTION_STRING_VAR: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
+          - AZURE_COSMOS_CONNECTION_STRING_VAR: $(AZURE_COSMOS_CONNECTION_STRING)
       - azd: deploy --all
+        env:
+          - APPLICATIONINSIGHTS_CONNECTION_STRING_VAR: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
+          - AZURE_CLIENT_ID_VAR: $(AZURE_CLIENT_ID)
+          - AZURE_CLIENT_SECRET_VAR: $(AZURE_CLIENT_SECRET)
+          - APPLICATIONINSIGHTS_CONNECTION_STRING_VAR: $(APPLICATIONINSIGHTS_CONNECTION_STRING)
+          - AZURE_COSMOS_CONNECTION_STRING_VAR: $(AZURE_COSMOS_CONNECTION_STRING)
 pipeline:
   variables:
-    - AZURE_PRINCIPAL_TYPE
-    - AZURE_AKS_CLUSTER_NAME
-    - APPLICATIONINSIGHTS_ROLE_NAME
-  secrets:
-    - AZURE_CLIENT_ID
-    - AZURE_CLIENT_SECRET
-    - AZURE_COSMOS_CONNECTION_STRING
-    - APPLICATIONINSIGHTS_CONNECTION_STRING
+    - AZURE_PRINCIPAL_TYPE_VAR: $(AZURE_PRINCIPAL_TYPE)
+    - APPLICATIONINSIGHTS_ROLE_NAME_VAR: $(APPLICATIONINSIGHTS_ROLE_NAME)
+    - AZURE_AKS_CLUSTER_NAME_VAR: $(AZURE_AKS_CLUSTER_NAME)
 services:
   web:
     project: ./src/web
@@ -29,24 +36,23 @@ services:
         windows:
           shell: pwsh
           run: 'echo "VITE_API_BASE_URL=""$env:SERVICE_API_ENDPOINT_URL""" > .env.local ; 
-           echo "VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=""$secrets:APPLICATIONINSIGHTS_CONNECTION_STRING""" >> .env.local ; 
-           echo "AZURE_PRINCIPAL_TYPE=""$env:AZURE_PRINCIPAL_TYPE""" >> .env.local;
-           echo "AZURE_AKS_CLUSTER_NAME=""$env:AZURE_AKS_CLUSTER_NAME""" >> .env.local;
-           echo "APPLICATIONINSIGHTS_ROLE_NAME=""$env:APPLICATIONINSIGHTS_ROLE_NAME""" >> .env.local;
-           echo "AZURE_CLIENT_ID=""$secrets:AZURE_CLIENT_ID""" >> .env.local;
-           echo "AZURE_CLIENT_SECRET=""$secrets:AZURE_CLIENT_SECRET""" >> .env.local;
-           echo "APPLICATIONINSIGHTS_CONNECTION_STRING=""$secrets:APPLICATIONINSIGHTS_CONNECTION_STRING""" >> .env.local;
-           echo "AZURE_COSMOS_CONNECTION_STRING=""$secrets:AZURE_COSMOS_CONNECTION_STRING""" >> .env.local'
+           echo "AZURE_PRINCIPAL_TYPE=""$env:AZURE_PRINCIPAL_TYPE_VAR""" >> .env.local;
+           echo "AZURE_AKS_CLUSTER_NAME=""$env:AZURE_AKS_CLUSTER_NAME_VAR$env:""" >> .env.local;
+           echo "VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=""$env:APPLICATIONINSIGHTS_CONNECTION_STRING_VAR´""" >> .env.local ; 
+           echo "APPLICATIONINSIGHTS_ROLE_NAME=""$env:APPLICATIONINSIGHTS_ROLE_NAME_VAR´""" >> .env.local;
+           echo "AZURE_CLIENT_ID=""($AZURE_CLIENT_ID_VAR´""" >> .env.local;
+           echo "AZURE_CLIENT_SECRET=""$env:AZURE_CLIENT_SECRET_VAR´""" >> .env.local;
+           echo "AZURE_COSMOS_CONNECTION_STRING=""$env:AZURE_COSMOS_CONNECTION_STRING_VAR´""" >> .env.local'
         posix:
           shell: sh
           run: 'echo VITE_API_BASE_URL=\"$SERVICE_API_ENDPOINT_URL\" > .env.local 
-            && echo VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=\"$secrets:APPLICATIONINSIGHTS_CONNECTION_STRING\" >> .env.local 
-            && echo AZURE_PRINCIPAL_TYPE=\"$env:AZURE_PRINCIPAL_TYPE\" >> .env.local
-            && echo AZURE_AKS_CLUSTER_NAME=\"$env:AZURE_AKS_CLUSTER_NAME\" >> .env.local
-            && echo APPLICATIONINSIGHTS_ROLE_NAME=\"$env:APPLICATIONINSIGHTS_ROLE_NAME\" >> .env.local
-            && echo AZURE_CLIENT_ID=\"$secrets:AZURE_CLIENT_ID\" >> .env.local
-            && echo AZURE_CLIENT_SECRET=\"$secrets:AZURE_CLIENT_SECRET\" >> .env.local
-            && echo AZURE_COSMOS_CONNECTION_STRING=\"$secrets:AZURE_COSMOS_CONNECTION_STRING\" >> .env.local'
+            && echo AZURE_PRINCIPAL_TYPE=\"$AZURE_PRINCIPAL_TYPE_VAR\" >> .env.local
+            && echo AZURE_AKS_CLUSTER_NAME=\"$AZURE_AKS_CLUSTER_NAME_VAR\" >> .env.local
+            && echo VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=\"$APPLICATIONINSIGHTS_CONNECTION_STRING_VAR\" >> .env.local 
+            && echo APPLICATIONINSIGHTS_ROLE_NAME=\"$APPLICATIONINSIGHTS_ROLE_NAME_VAR\" >> .env.local
+            && echo AZURE_CLIENT_ID=\"$AZURE_CLIENT_ID_VAR\" >> .env.local
+            && echo AZURE_CLIENT_SECRET=\"$AZURE_CLIENT_SECRET_VAR\" >> .env.local
+            && echo AZURE_COSMOS_CONNECTION_STRING=\"$AZURE_COSMOS_CONNECTION_STRING_VAR\" >> .env.local'
       postbuild:
         windows:
           shell: pwsh
