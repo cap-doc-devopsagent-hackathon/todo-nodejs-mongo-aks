@@ -78,12 +78,28 @@ jobs:
       - name: Provision Infrastructure
         run: |
           azd provision --no-prompt --debug
+        with:
+          AZURE_PRINCIPAL_TYPE_VAR: ${{ var.AZURE_PRINCIPAL_TYPE }}
+          AZURE_AKS_CLUSTER_NAME_VAR: ${{ var.AZURE_AKS_CLUSTER_NAME }}
+          APPLICATIONINSIGHTS_ROLE_NAME_VAR: ${{ var.APPLICATIONINSIGHTS_ROLE_NAME }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING_VAR: ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
+          AZURE_CLIENT_ID_VAR: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET_VAR: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_COSMOS_CONNECTION_STRING_VAR: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
         env:
           AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
       - name: Show env vars (DEBUG)
         run: env | sort
       - name: Deploy Application
         run: azd deploy --no-prompt --debug
+        with:
+          AZURE_PRINCIPAL_TYPE_VAR:  ${{ var.AZURE_PRINCIPAL_TYPE }}
+          AZURE_AKS_CLUSTER_NAME_VAR : ${{ var.AZURE_AKS_CLUSTER_NAME }}
+          APPLICATIONINSIGHTS_ROLE_NAME_VAR : ${{ var.APPLICATIONINSIGHTS_ROLE_NAME }}
+          APPLICATIONINSIGHTS_CONNECTION_STRING_VAR: ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
+          AZURE_CLIENT_ID_VAR: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET_VAR: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_COSMOS_CONNECTION_STRING_VAR: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
         env:
           AZURE_CONTAINER_REGISTRY_ENDPOINT: ${{ vars.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
