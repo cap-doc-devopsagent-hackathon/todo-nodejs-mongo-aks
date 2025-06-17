@@ -36,6 +36,11 @@ spec:
                 secretKeyRef:
                   name: todo-api-secret
                   key: AZURE_TENANT_ID
+            - name: AZURE_COSMOS_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: todo-api-secret
+                  key: AZURE_COSMOS_CONNECTION_STRING
             - name: AZURE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
