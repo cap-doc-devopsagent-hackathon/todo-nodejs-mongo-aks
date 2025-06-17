@@ -67,9 +67,10 @@ jobs:
       - name: Create Kubernetes Secret in Namespace
         uses: azure/k8s-create-secret@v4
         with:
-          namespace: ${{ secrets.AZURE_AKS_DEMO_APP_NAMESPACE }}
-          secret-name: todo-api-secret
-          string-data: '{ "AZURE_COSMOS_CONNECTION_STRING": "${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}", "AZURE_CLIENT_ID": "${{ secrets.AZURE_CLIENT_ID }}", "AZURE_CLIENT_SECRET": "${{ secrets.AZURE_CLIENT_SECRET }}" }'
+          namespace: '${{ secrets.AZURE_AKS_DEMO_APP_NAMESPACE }}'
+          secret-type: 'opaque'
+          secret-name: 'todo-api-secret'
+          string-data: '{"AZURE_COSMOS_CONNECTION_STRING": "${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}", "AZURE_CLIENT_ID": "${{ secrets.AZURE_CLIENT_ID }}", "AZURE_CLIENT_SECRET": "${{ secrets.AZURE_CLIENT_SECRET }}"}'
 
       # Required if using alpha AKS features for Helm or Kustomize
       - name: Configure Azd
