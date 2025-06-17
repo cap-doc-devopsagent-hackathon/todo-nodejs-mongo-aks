@@ -12,10 +12,6 @@ pipeline:
   variables:
     - AZURE_PRINCIPAL_TYPE
     - AZURE_AKS_CLUSTER_NAME
-  secrets:
-    - AZURE_CLIENT_ID
-    - AZURE_CLIENT_SECRET
-    - AZURE_COSMOS_CONNECTION_STRING
 services:
   web:
     project: ./src/web
