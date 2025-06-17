@@ -69,7 +69,7 @@ jobs:
         with:
           namespace: ${{ secrets.AZURE_AKS_DEMO_APP_NAMESPACE }}
           secret-name: todo-api-secret
-          args: --from-literal=AZURE_COSMOS_CONNECTION_STRING='${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}' --from-literal=AZURE_CLIENT_ID='${{ secrets.AZURE_CLIENT_ID }}' --from-literal=AZURE_CLIENT_SECRET='${{ secrets.AZURE_CLIENT_SECRET }}'
+          string-data: '{ "AZURE_COSMOS_CONNECTION_STRING": "${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}", "AZURE_CLIENT_ID": "${{ secrets.AZURE_CLIENT_ID }}", "AZURE_CLIENT_SECRET": "${{ secrets.AZURE_CLIENT_SECRET }}" }'
 
       # Required if using alpha AKS features for Helm or Kustomize
       - name: Configure Azd
