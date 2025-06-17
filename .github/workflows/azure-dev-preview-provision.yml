@@ -68,10 +68,10 @@ jobs:
         uses: azure/k8s-create-secret@v4
         with:
           namespace: ${{ secrets.AZURE_AKS_DEMO_APP_NAMESPACE }}
-          secret-type: generic
           secret-name: todo-api-secret
-          arguments: --from-literal=AZURE_COSMOS_CONNECTION_STRING=${{ secrets.AZURE_COSMOS_CONNECTION_STRING }} --from-literal=AZURE_CLIENT_ID=${{ secrets
-            .AZURE_CLIENT_ID }} --from-literal=AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_COSMOS_CONNECTION_STRING: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       # Required if using alpha AKS features for Helm or Kustomize
       - name: Configure Azd
