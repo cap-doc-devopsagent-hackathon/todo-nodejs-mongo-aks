@@ -43,7 +43,4 @@ spec:
                   key: AZURE_COSMOS_CONNECTION_STRING
                   optional: false
             - name: APPLICATIONINSIGHTS_ROLE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  key: APPLICATIONINSIGHTS_ROLE_NAME
-                  name: todo-api-config
+              value: 'API'
