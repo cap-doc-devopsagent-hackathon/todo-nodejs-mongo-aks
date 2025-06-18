@@ -21,23 +21,29 @@ spec:
             - containerPort: 3100
           env:
             - name: AZURE_CLIENT_ID
-              value: {{.Env.AZURE_AKS_IDENTITY_CLIENT_ID}}
+              valueFrom:
+                secretKeyRef:
+                  name: todo-api-secret
+                  key: AZURE_CLIENT_ID
             - name: AZURE_KEY_VAULT_ENDPOINT
               valueFrom:
                 configMapKeyRef:
                   name: todo-api-config
                   key: AZURE_KEY_VAULT_ENDPOINT
-                  optional: false
             - name: APPLICATIONINSIGHTS_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
-                  name: todo-api-config
+                  name: todo-api-secret
                   key: APPLICATIONINSIGHTS_CONNECTION_STRING
                   optional: false
             - name: AZURE_COSMOS_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
                   name: todo-api-secret
-                  key: AZURE_COSMOS_CONNECTIONSTRING
+                  key: AZURE_COSMOS_CONNECTION_STRING
+                  optional: false
             - name: APPLICATIONINSIGHTS_ROLE_NAME
-              value: {{.Env.APPLICATIONINSIGHTS_ROLE_NAME}}
+              valueFrom:
+                configMapKeyRef:
+                  key: APPLICATIONINSIGHTS_ROLE_NAME
+                  name: todo-api-config
