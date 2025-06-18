@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: 3100
           env:
+            - name: AZURE_CLIENT_ID
+              value: {{.Env.AZURE_AKS_IDENTITY_CLIENT_ID}}
             - name: AZURE_KEY_VAULT_ENDPOINT
               valueFrom:
                 configMapKeyRef:
