@@ -96,16 +96,12 @@ jobs:
 
       - name: Provision Infrastructure
         run: |
-          azd provision --no-prompt --debug
+          azd provision --no-prompt
         env:
           AZURE_PRINCIPAL_ID: ${{ secrets.AZURE_SP_CLIENT_ID }}
-      - name: Show env vars (DEBUG)
-        run: env | sort
       - name: Deploy Application
-        run: azd deploy --no-prompt --debug
+        run: azd deploy --no-prompt
         env:
           AZURE_CONTAINER_REGISTRY_ENDPOINT: ${{ vars.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
           AZURE_COSMOS_CONNECTION_STRING: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
-      - name: Show env vars (DEBUG)
-        run: env | sort
