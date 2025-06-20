@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-api
+  namespace: todo-nodejs-mongo-aks
 spec:
   replicas: 2
   selector:
@@ -12,6 +13,7 @@ spec:
       labels:
         app: todo-api
     spec:
+      serviceAccountName: todo-api-sa
       containers:
         - name: todo-api
           image: {{.Env.SERVICE_API_IMAGE_NAME}}
@@ -19,16 +21,28 @@ spec:
             - containerPort: 3100
           env:
             - name: AZURE_CLIENT_ID
-              value: {{.Env.AZURE_AKS_IDENTITY_CLIENT_ID}}
+              valueFrom:
+                secretKeyRef:
+                  name: todo-api-secret
+                  key: AZURE_CLIENT_ID
+                  optional: true
             - name: AZURE_KEY_VAULT_ENDPOINT
               valueFrom:
                 configMapKeyRef:
                   name: todo-api-config
                   key: AZURE_KEY_VAULT_ENDPOINT
-                  optional: false
+                  optional: true
             - name: APPLICATIONINSIGHTS_CONNECTION_STRING
               valueFrom:
-                configMapKeyRef:
-                  name: todo-api-config
+                secretKeyRef:
+                  name: todo-api-secret
                   key: APPLICATIONINSIGHTS_CONNECTION_STRING
                   optional: false
+            - name: AZURE_COSMOS_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: todo-api-secret
+                  key: AZURE_COSMOS_CONNECTION_STRING
+                  optional: false
+            - name: APPLICATIONINSIGHTS_ROLE_NAME
+              value: 'API'

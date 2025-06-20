@@ -9,16 +9,6 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-// Optional parameters to override the default azd resource naming conventions. Update the main.parameters.json file to provide values. e.g.,:
-// "resourceGroupName": {
-//      "value": "myGroupName"
-// }
-@description('The resource name of the AKS cluster')
-param clusterName string = ''
-
-@description('The resource name of the Container Registry (ACR)')
-param containerRegistryName string = ''
-
 param applicationInsightsDashboardName string = ''
 param applicationInsightsName string = ''
 param cosmosAccountName string = ''
@@ -40,32 +30,13 @@ param systemPoolType string = 'CostOptimised'
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
-var tags = { 'azd-env-name': environmentName }
+var tags = { 'azd-env-name': environmentName, 'owner': 'jan.a.kraus@capgemini.com' }
 
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
   location: location
   tags: tags
-}
-
-// The AKS cluster to host applications
-module aks 'br/public:avm/ptn/azd/aks:0.2.0' = {
-  scope: rg
-  name: 'aks'
-  params: {
-    name: !empty(clusterName) ? clusterName : '${abbrs.containerServiceManagedClusters}${resourceToken}'
-    containerRegistryName: !empty(containerRegistryName) ? containerRegistryName : '${abbrs.containerRegistryRegistries}${resourceToken}'
-    monitoringWorkspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceResourceId
-    keyVaultName: keyVault.outputs.name
-    principalId: principalId
-    location: location
-    skuTier: 'Free'
-    acrSku: 'Basic'
-    systemPoolSize: systemPoolType
-    disableLocalAccounts: false
-    aadProfile: null
-  }
 }
 
 // The application database
@@ -127,7 +98,3 @@ output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.uri
 output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
-output AZURE_AKS_CLUSTER_NAME string = aks.outputs.managedClusterName
-output AZURE_AKS_IDENTITY_CLIENT_ID string? = aks.outputs.?managedClusterClientId
-output AZURE_CONTAINER_REGISTRY_ENDPOINT string = aks.outputs.containerRegistryLoginServer
-output AZURE_CONTAINER_REGISTRY_NAME string = aks.outputs.containerRegistryName
