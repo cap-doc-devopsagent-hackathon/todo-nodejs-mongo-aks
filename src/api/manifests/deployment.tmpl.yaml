@@ -25,11 +25,13 @@ spec:
                 secretKeyRef:
                   name: todo-api-secret
                   key: AZURE_CLIENT_ID
+                  optional: true
             - name: AZURE_KEY_VAULT_ENDPOINT
               valueFrom:
                 configMapKeyRef:
                   name: todo-api-config
                   key: AZURE_KEY_VAULT_ENDPOINT
+                  optional: true
             - name: APPLICATIONINSIGHTS_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
