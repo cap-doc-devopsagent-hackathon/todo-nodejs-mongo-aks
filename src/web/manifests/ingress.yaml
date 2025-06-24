@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-ingress-web
+  namespace: todo-nodejs-mongo-aks
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
