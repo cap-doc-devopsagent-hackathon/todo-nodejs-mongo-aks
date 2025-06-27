@@ -4,6 +4,7 @@ metadata:
   name: todo-ingress-api
   namespace: todo-nodejs-mongo-aks
   annotations:
+    cert-manager.io/cluster-issuer: leetsencrypt-staging
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
@@ -18,3 +19,8 @@ spec:
                 name: todo-api
                 port:
                   number: 80
+
+  tls:
+    - hosts:
+        - testapp.k8s.devopsagent.de
+      secretName: testapp-tls

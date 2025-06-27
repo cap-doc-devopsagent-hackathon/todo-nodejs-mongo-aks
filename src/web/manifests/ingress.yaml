@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: todo-ingress-web
   namespace: todo-nodejs-mongo-aks
+  annotations:
+    cert-manager.io/cluster-issuer: leetsencrypt-staging
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
@@ -15,3 +17,7 @@ spec:
                 name: todo-web
                 port:
                   number: 80
+  tls:
+    - hosts:
+      - testapp.k8s.devopsagent.de
+      secretName: testapp-tls
