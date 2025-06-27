@@ -8,7 +8,8 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-    - http:
+    - host: testapp.k8s.devopsagent.de
+      http:
         paths:
           - path: /
             pathType: Prefix
