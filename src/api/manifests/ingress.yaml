@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-ingress-api
-  namespace: todo-nodejs-mongo-aks
+  namespace: test-app-{{.Env.NAMESPACE}}
   annotations:
     cert-manager.io/cluster-issuer: leetsencrypt-staging
     nginx.ingress.kubernetes.io/use-regex: "true"

@@ -93,7 +93,25 @@ jobs:
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-
+      - name: Validate branch name has appendix
+        id: validate-branch
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          # Check if branch name contains a dash followed by at least one character
+          if [[ ! "$BRANCH_NAME" =~ -.+$ ]]; then
+            echo "ERROR: Branch name '$BRANCH_NAME' does not contain an appendix starting with a dash (-)."
+            exit 1
+          fi
+          echo "Branch name '$BRANCH_NAME' is valid."
+      - name: Extract branch name appendix for namespace
+        id: extract-branch
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          # Extract the last word after the last dash '-'
+          LAST_WORD="${BRANCH_NAME##*-}"
+          echo "Branch name: $BRANCH_NAME"
+          echo "Last word: $LAST_WORD"
+          echo "last_word=$LAST_WORD" >> $GITHUB_OUTPUT
       - name: Provision Infrastructure
         run: |
           azd provision --no-prompt
@@ -106,3 +124,4 @@ jobs:
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
           AZURE_COSMOS_CONNECTION_STRING: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
           SERVICE_API_ENDPOINT_URL: ${{ vars.SERVICE_API_ENDPOINT_URL }}
+          NAMESPACE: ${{ steps.extract-branch.outputs.last_word }}

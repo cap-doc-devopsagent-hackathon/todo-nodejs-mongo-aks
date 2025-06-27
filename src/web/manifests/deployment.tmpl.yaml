@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-web
-  namespace: todo-nodejs-mongo-aks
+  namespace: test-app-{{.Env.NAMESPACE}}
 spec:
   replicas: 2
   selector:
