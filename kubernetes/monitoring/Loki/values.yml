@@ -35,7 +35,7 @@ loki:
       azure.workload.identity/client-id: <AZURE_SA_CLIENT_ID>
     labels:
       azure.workload.identity/use: "true"
-    name: loki-sa
+    name: monitoring-sa
   singleBinary:
     persistence:
       enabled: true
