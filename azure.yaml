@@ -4,13 +4,14 @@ name: todo-nodejs-mongo-aks
 metadata:
   template: todo-nodejs-mongo-aks@0.0.1-beta
 workflows:
-  up: 
+  up:
     steps:
       - azd: provision
       - azd: deploy --all
 pipeline:
   variables:
     - AZURE_PRINCIPAL_TYPE
+    - AZURE_AKS_CLUSTER_NAME
 services:
   web:
     project: ./src/web
@@ -21,10 +22,14 @@ services:
       prebuild:
         windows:
           shell: pwsh
-          run: 'echo "VITE_API_BASE_URL=""$env:SERVICE_API_ENDPOINT_URL""" > .env.local ; echo "VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=""$env:APPLICATIONINSIGHTS_CONNECTION_STRING""" >> .env.local'
+          run: 'echo "VITE_API_BASE_URL=""$env:SERVICE_API_ENDPOINT_URL""" > .env.local ; 
+            echo "VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=""$env:APPLICATIONINSIGHTS_CONNECTION_STRING""" >> .env.local ; 
+            echo "AZURE_COSMOS_CONNECTION_STRING=""$env:AZURE_COSMOS_CONNECTION_STRING""" >> .env.local'
         posix:
           shell: sh
-          run: 'echo VITE_API_BASE_URL=\"$SERVICE_API_ENDPOINT_URL\" > .env.local && echo VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=\"$APPLICATIONINSIGHTS_CONNECTION_STRING\" >> .env.local'
+          run: 'echo VITE_API_BASE_URL=\"$SERVICE_API_ENDPOINT_URL\" > .env.local && 
+            echo VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=\"$APPLICATIONINSIGHTS_CONNECTION_STRING\" >> .env.local && 
+            echo AZURE_COSMOS_CONNECTION_STRING=\"$AZURE_COSMOS_CONNECTION_STRING\" >> .env.local'
       postbuild:
         windows:
           shell: pwsh
