@@ -73,7 +73,7 @@ steps:
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
-        azd deploy --no-prompt
+        azd deploy --no-prompt --parameters namespace=$(NAMESPACE)
     env:
       AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
       AZURE_ENV_NAME: $(AZURE_ENV_NAME)

@@ -15,6 +15,7 @@ param cosmosAccountName string = ''
 param keyVaultName string = ''
 param logAnalyticsName string = ''
 param resourceGroupName string = ''
+param namespace string = 'test'
 
 @description('Id of the user or app to assign application roles')
 param principalId string = ''
@@ -98,4 +99,4 @@ output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.uri
 output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
-output NAMESPACE string = 'test'
+output NAMESPACE string = namespace
