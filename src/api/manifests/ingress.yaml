@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-ingress-api
-  namespace: testapp-2-defect
+  namespace: todo-nodejs-mongo-aks
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -20,7 +20,6 @@ spec:
                 name: todo-api
                 port:
                   number: 80
-
   tls:
     - hosts:
         - testapp.k8s.devopsagent.de

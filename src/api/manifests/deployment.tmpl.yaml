@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-api
-  namespace: testapp-2-defect
+  namespace: todo-nodejs-mongo-aks
 spec:
   replicas: 2
   selector:

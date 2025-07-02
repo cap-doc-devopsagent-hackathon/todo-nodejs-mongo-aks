@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: todo-api-sa
-  namespace: testapp-2-defect
+  namespace: todo-nodejs-mongo-aks
   annotations:
     azure.workload.identity/client-id: <APP-MIDEVOPSAGENT.CLIENTID>
     azure.workload.identity/use: "true"
