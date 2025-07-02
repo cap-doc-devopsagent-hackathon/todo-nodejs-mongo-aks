@@ -6,7 +6,7 @@ export const getConfig: () => Promise<AppConfig> = async () => {
 
         const  databaseConfig : DatabaseConfig = new class implements DatabaseConfig {
             connectionString: string = process.env.AZURE_COSMOS_CONNECTION_STRING || "Env mapping unsuccessful";
-            databaseName: string = process.env.AZURE_COSMOS_DATABASE_NAME || "Env mapping unsuccessful";
+            databaseName: string = process.env.AZURE_COSMOS_DATABASE_NAME || "Todo";
         };
 
         const  observabilityConfig : ObservabilityConfig = new class implements ObservabilityConfig {

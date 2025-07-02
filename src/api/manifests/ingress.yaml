@@ -20,7 +20,6 @@ spec:
                 name: todo-api
                 port:
                   number: 80
-
   tls:
     - hosts:
         - testapp.k8s.devopsagent.de

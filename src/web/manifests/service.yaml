@@ -7,5 +7,9 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
+      name: http
+    - port: 443
+      name: https
+      targetPort: 80
   selector:
     app: todo-web
