@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-ingress-web
-  namespace: testapp-2-defect
+  namespace: todo-nodejs-mongo-aks
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:

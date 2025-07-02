@@ -67,7 +67,7 @@ jobs:
       - name: Create Kubernetes Secret in Namespace
         uses: azure/k8s-create-secret@v4
         with:
-          namespace: 'testapp-2-defect'
+          namespace: 'todo-nodejs-mongo-aks'
           secret-type: 'Opaque'
           secret-name: 'todo-api-secret'
           string-data: '{"AZURE_COSMOS_CONNECTION_STRING": "${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}", "AZURE_CLIENT_ID": "${{ secrets.AZURE_SP_CLIENT_ID }}", "AZURE_CLIENT_SECRET": "${{ secrets.AZURE_SP_SECRET }}", "APPLICATIONINSIGHTS_CONNECTION_STRING": "${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}", "AZURE_TENANT_ID": "${{ secrets.AZURE_SP_TENANT_ID }}"}'
