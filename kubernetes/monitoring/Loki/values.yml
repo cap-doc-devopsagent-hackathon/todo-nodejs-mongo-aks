@@ -1,67 +1,75 @@
 loki:
+  schemaConfig:
+    configs:
+      - from: 2025-07-01
+        object_store: azure
+        store: tsdb
+        schema: v13
+        index:
+          period: 24h
+          prefix: index_
   auth_enabled: false
   deploymentMode: SingleBinary
-  podLabels:
-    azure.workload.identity/client-id: <LOKI-MIDEVOPSAGENT.CLIENTID>
-    azure.workload.identity/use: "true"
   querier:
     max_concurrent: 4
   replicas: 1
   retention_period: 24h
+  storage:
+    type: azure
+    azure:
+      accountKey: "PLACEHOLDER-SA-KEY"
+      accountName: "PLACEHOLDER-SA-NAME"
+      connection_string: "PLACEHOLDER-CONNECTION-STRING"
+      container_name: "loki"
+      use_managed_identity: false
+      request_timeout: 0
+    tsdb_shipper:
+      active_index_directory: /loki/index
+      cache_location: /loki/index_cache
+      cache_ttl: 24h
+    bucketNames:
+      admin: loki-admin
+      chunks: loki-chunks
+      ruler: loki-ruler
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
+      admin_api_directory: /var/loki/admin
   ruler:
     alertmanager_url: http://prometheus-alertmanager:9093
     enable_api: true
     storage:
       azure:
-        account_key: <AZURE_SA_ACCOUNT_KEY>
-        account_name: <AZURE_SA_ACCOUNT_NAME>
-        client_id: <AZURE_SP_CLIENT_ID>
-        client_secret: <AZURE_SP_SECRET>
-        endpointSuffix: blob.core.windows.net
-        tenant_id: <AZURE_TENANT_ID>
+        accountKey: "PLACEHOLDER-SA-KEY"
+        account_key: "PLACEHOLDER-SA-KEY"
+        accountName: "PLACEHOLDER-SA-NAME"
+        account_name: "PLACEHOLDER-SA-NAME"
+        connection_string: "PLACEHOLDER-CONNECTION-STRING"
+        container_name: "loki"
         use_managed_identity: false
-        use_service_principal: true
-  schemaConfig:
-    configs:
-      - from: "2024-01-01"
-        index:
-          period: 24h
-          prefix: loki_index_
-        object_store: azure
-        schema: v13
-        store: tsdb
-  serviceAccount:
-    annotations:
-      azure.workload.identity/client-id: <AZURE_SA_CLIENT_ID>
-    labels:
-      azure.workload.identity/use: "true"
-    name: monitoring-sa
+      bucketNames:
+        admin: loki-admin
+        chunks: loki-chunks
+        ruler: loki-ruler
   singleBinary:
     persistence:
       enabled: true
     replicas: 1
-  storage:
-    azure:
-      account_key: <AZURE_SA_ACCOUNT_KEY>
-      account_name: <AZURE_SA_ACCOUNT_NAME>
-      client_id: <AZURE_SP_CLIENT_ID>
-      client_secret: <AZURE_SP_SECRET>
-      endpointSuffix: blob.core.windows.net
-      tenant_id: <AZURE_TENANT_ID>
-      use_managed_identity: false
-      use_service_principal: true
-    bucketNames:
-      chunks: loki-chunks
-      ruler: loki-ruler
+  limits_config:
+    ingestion_rate_mb: 20
+    ingestion_burst_size_mb: 40
+    max_streams_per_user: 50000
+    max_entries_limit_per_query: 5000
+    max_query_series: 1000
 gateway:
   replicas: 3
   enabled: true
 read:
-  replicas: 1
+  replicas: 3
 test:
   enabled: false
 write:
-  replicas: 2
+  replicas: 3
 backend:
   replicas: 3
 compactor:
