@@ -4,7 +4,7 @@ metadata:
   name: todo-ingress-web
   namespace: todo-nodejs-mongo-aks
   annotations:
-    cert-manager.io/cluster-issuer: leetsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:

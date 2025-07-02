@@ -17,7 +17,6 @@ ServiceAccount loki-sa
 StorageAccount devopsagentloki
  
 //For usage of ManagedIDs
-az aks update --name aks-devops-agent --enable-oidc-issuer --enable-workload-identity  
 az aks show --name aks-devops-agent --resource-group rg-devops-agent --query "oidcIssuerProfile.issuerUrl" -o tsv
 az identity federated-credential create --name app-fedcreddevopsagent --identity-name <AZURE_CLIENT_ID> --resource-group rg-devops-agent --issuer 
 https://westeurope.oic.
@@ -39,7 +38,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 cd ./Loki
-helm upgrade --install loki grafana/loki -n monitoring -f loki-values.yaml
+helm upgrade --install loki grafana/loki -n monitoring -f values.yaml
 helm upgrade --install grafana -n monitoring
 
 cd ./Promtail

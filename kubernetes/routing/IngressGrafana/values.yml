@@ -10,8 +10,12 @@ spec:
         paths:
           - backend:
               service:
-                name: todo-api-front
+                name: grafana
                 port:
                   number: 80
             path: /monitoring/
             pathType: Prefix
+  tls:
+    - hosts:
+        - grafana.k8s.devopsagent.de
+      secretName: grafana-tls
