@@ -20,7 +20,7 @@ StorageAccount devopsagentloki
 az aks show --name aks-devops-agent --resource-group rg-devops-agent --query "oidcIssuerProfile.issuerUrl" -o tsv
 az identity federated-credential create --name app-fedcreddevopsagent --identity-name <AZURE_CLIENT_ID> --resource-group rg-devops-agent --issuer 
 https://westeurope.oic.
-prod-aks.azure.com/<AZURE_AKS_CLIENT_ID/ --subject system:serviceaccount:todo-nodejs-mongo-aks:todo-api-sa --audience api://AzureADTokenExchange
+prod-aks.azure.com/<AZURE_AKS_CLIENT_ID/ --subject system:serviceaccount:testapp-2-defect:todo-api-sa --audience api://AzureADTokenExchange
 az identity show -g rg-devops-agent --name app-fedcreddevopsagent
 
 //Generate AccessTokens from AKS

@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: todo-nodejs-mongo-aks
+name: testapp-2-defect
 metadata:
   template: todo-nodejs-mongo-aks@0.0.1-beta
 workflows:
