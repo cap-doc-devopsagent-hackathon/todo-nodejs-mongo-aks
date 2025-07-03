@@ -87,7 +87,7 @@ jobs:
 
           azd auth login `
             --client-id "$($info.clientId)" `
-            --client-secret "$($info.clientSecret)" `
+            --client-secret "$($secret.clientSecret)" `
             --tenant-id "$($info.tenantId)";
           azd config set defaults.subscription "$($info.subscriptionId)";
         shell: pwsh
