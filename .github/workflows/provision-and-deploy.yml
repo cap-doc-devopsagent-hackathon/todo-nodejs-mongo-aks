@@ -33,7 +33,7 @@ jobs:
       - name: Install Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 13
+          node-version: 18
 
       # Required if not installed in base image
       - name: Install kubectl
@@ -62,7 +62,7 @@ jobs:
         uses: azure/aks-set-context@v3
         with:
           resource-group: ${{ vars.AZURE_RESOURCE_GROUP }}
-          cluster-name: ${{ vars.AZURE_AKS_CLUSTER_NAME }}
+          cluster-name: ${{ vars.AZURE_ASK_CLUSTER_NAME }}
 
       - name: Create Kubernetes Secret in Namespace
         uses: azure/k8s-create-secret@v4
