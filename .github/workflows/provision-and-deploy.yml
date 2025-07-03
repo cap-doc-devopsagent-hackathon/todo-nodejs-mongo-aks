@@ -75,8 +75,8 @@ jobs:
       # Required if using alpha AKS features for Helm or Kustomize
       - name: Configure Azd
         run: |
-          azd config set alpha.aks.helm on
-          azd config set alpha.aks.kustomize on
+          azd config set azure.aks.helm on
+          azd config set azure.aks.kustomize on
         shell: pwsh
 
       - name: Log in with Azure (Client Credentials)
