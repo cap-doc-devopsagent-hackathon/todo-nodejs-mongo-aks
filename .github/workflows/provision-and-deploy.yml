@@ -102,6 +102,7 @@ jobs:
       - name: Deploy Application
         run: azd deploy --no-prompt
         env:
+          AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
           AZURE_CONTAINER_REGISTRY_ENDPOINT: ${{ vars.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
           AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
           AZURE_COSMOS_CONNECTION_STRING: ${{ secrets.AZURE_COSMOS_CONNECTION_STRING }}
