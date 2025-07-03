@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-    - host: broken.testapp.k8s.devopsagent.de
+    - host: temp1.k8s.devopsagent.de
       http:
         paths:
           - path: /api(/|$)(.*)
