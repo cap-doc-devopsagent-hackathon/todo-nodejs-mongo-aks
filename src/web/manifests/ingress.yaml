@@ -20,5 +20,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-      - testapp.k8s.devopsagent.de
+        - temp1.k8s.devopsagent.de
       secretName: testapp-tls

@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-    - host: testapp.k8s.devopsagent.de
+    - host: temp1.k8s.devopsagent.de
     - http:
         paths:
           - backend:
@@ -18,6 +18,6 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - testapp.k9s.devopsagent.de
+        - temp1.k9s.devopsagent.de
       secretName: testapp-tls
 
