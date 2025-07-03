@@ -22,12 +22,12 @@ services:
       prebuild:
         windows:
           shell: pwsh
-          run: 'echo "VITE_API_BASE_URL="todo-api.todoapp-broken.svc.cluster.local/api"" > .env.local ; 
+          run: 'echo "VITE_API_BASE_URL=""$env:SERVICE_API_ENDPOINT_URL""" > .env.local ; 
             echo "VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=""$env:APPLICATIONINSIGHTS_CONNECTION_STRING""" >> .env.local ; 
             echo "AZURE_COSMOS_CONNECTION_STRING=""$env:AZURE_COSMOS_CONNECTION_STRING""" >> .env.local'
         posix:
           shell: sh
-          run: 'echo VITE_API_BASE_URL=\"todo-api.todoapp-broken.svc.cluster.local/api\" > .env.local && 
+          run: 'echo VITE_API_BASE_URL=\"$SERVICE_API_ENDPOINT_URL\" > .env.local && 
             echo VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=\"$APPLICATIONINSIGHTS_CONNECTION_STRING\" >> .env.local && 
             echo AZURE_COSMOS_CONNECTION_STRING=\"$AZURE_COSMOS_CONNECTION_STRING\" >> .env.local'
       postbuild:
